@@ -12,7 +12,10 @@ class LinkedList
     end
     def append(value)     
         new_node = Node.new(value)
-        new_node = @head_node unless @head_node
+        if !@head_node
+            @head_node = new_node 
+            return
+        end
         current_node = @head_node
         while current_node.next_node do
             current_node = current_node.next_node
