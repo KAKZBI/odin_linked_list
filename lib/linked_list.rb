@@ -7,13 +7,14 @@ class Node
 end
 class LinkedList
     attr_accessor :head_node
-    def initialize(head_node)
+    def initialize(head_node = nil)
         @head_node = head_node
     end
-    def append(value)
-        current_node = @head_node
+    def append(value)     
         new_node = Node.new(value)
-        while current_node do
+        new_node = @head_node unless @head_node
+        current_node = @head_node
+        while current_node.next_node do
             current_node = current_node.next_node
         end
         current_node.next_node = new_node
@@ -21,23 +22,26 @@ class LinkedList
     
     def prepend(value)
         new_node = Node.new(value, @head_node)
+        @head_node = new_node
     end
 
-    def size()
+    def size
+        return 0 unless @head_node
         current_node = @head_node
-        currrent_index = 0
-        while current_node do
+        current_index = 0
+        while current_node.next_node do
             current_node = current_node.next_node
-            currrent_index += 1
+            current_index += 1
         end
-        return currrent_index
+        return current_index + 1
     end
 
-    def head()
+    def head
         return @head_node
     end
 
-    def tail()
+    def tail
+        return nil unless @head_node
         current_node = @head_node
         previous_node = nil
         while current_node do
@@ -48,24 +52,29 @@ class LinkedList
     end
 
     def at(index)
+        return nil unless index < self.size
         current_node = self.head_node
-        currrent_index = 0
-        while currrent_index < index 
+        current_index = 0
+        while current_index < index -1 
             current_node = current_node.next_node
-            currrent_index += 1
+            current_index += 1
         end
         return current_node
     end
     def pop()
-        current_node = self.head_node
-        previous_node = nil
-        while current_node do
-            break if current_node.next_node.nil?
-            previous_node = current_node
+        current_node = @head_node 
+        if self.size == 1
+            last_node = @head_node
+            @head_node = @head_node.next_node #Make it nil
+            return last_node
+        end
+        second_to_last_node = nil
+        while current_node.next_node do
+            second_to_last_node = current_node
             current_node = current_node.next_node
         end
-        previous_node.next_node = nil
-        return current_node
+        second_to_last_node.next_node = current_node.next_node #Make it nil
+        current_node
     end
     
     def contains?(value)
@@ -78,44 +87,64 @@ class LinkedList
     end
     def find(value)
         current_node = self.head_node
-        currrent_index = 0
-        while currrent_node
-            return currrent_index if currrent_node.value == value
+        current_index = 0
+        while current_node
+            return current_index if current_node.value == value
             current_node = current_node.next_node
-            currrent_index += 1
+            current_index += 1
         end
         return nil
     end
-    def to_s()
+    def to_s
         current_node = self.head_node
         string = ""
-        while currrent_node
-            string << "( #{currrent_node.value} -> )"
+        while current_node
+            string << "( #{current_node.value} ) -> "
             current_node = current_node.next_node
         end
         string << "nil"
-        # return string
+        return string
     end
 
     def insert_at(value, index)
-        current_node self.head_node
-        currrent_index = 0
+        current_node = self.head_node
+        current_index = 0
         new_node = Node.new(value)
-        while currrent_index < index - 1
+        while current_index < index - 1
             current_node = current_node.next_node
-            currrent_index += 1
+            current_index += 1
         end
         new_node.next_node = current_node.next_node
         current_node.next_node = new_node
     end
 
     def remove_at(index)
-        current_node self.head_node
-        currrent_index = 0
-        while currrent_index < index - 1
+        current_node = self.head_node
+        current_index = 0
+        while current_index < index - 1
             current_node = current_node.next_node
-            currrent_index += 1
+            current_index += 1
         end
         current_node.next_node = current_node.next_node.next_node
     end
 end
+
+node_1 = Node.new("once")
+node_2 = Node.new("upon")
+node_3 = Node.new("a")
+node_4 = Node.new("time")
+node_1.next_node = node_2
+node_2.next_node = node_3
+node_3.next_node = node_4
+
+list = LinkedList.new(node_1)
+
+puts list
+
+list.insert_at("I think", 2)
+
+puts list
+
+list.remove_at(2)
+
+puts list
