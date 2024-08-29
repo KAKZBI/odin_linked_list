@@ -52,7 +52,7 @@ class LinkedList
         return nil unless index < self.size
         current_node = self.head_node
         current_index = 0
-        while current_index < index -1 
+        while current_index < index  
             current_node = current_node.next_node
             current_index += 1
         end
@@ -104,6 +104,7 @@ class LinkedList
     end
 
     def insert_at(value, index)
+        return if index > (1 + self.size) # in case the index goes 2 level above the size of the list
         current_node = self.head_node
         current_index = 0
         new_node = Node.new(value)

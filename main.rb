@@ -10,4 +10,5 @@ list.append('hamster')
 list.append('snake')
 list.append('turtle')
 
+list.insert_at('fish', 2)
 puts list
