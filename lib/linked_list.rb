@@ -1,10 +1,4 @@
-class Node
-    attr_accessor :value, :next_node
-    def initialize(value = nil, next_node = nil)
-        @value = value
-        @next_node = next_node
-    end
-end
+require_relative './node.rb'
 class LinkedList
     attr_accessor :head_node
     def initialize(head_node = nil)
@@ -131,23 +125,3 @@ class LinkedList
         current_node.next_node = current_node.next_node.next_node
     end
 end
-
-node_1 = Node.new("once")
-node_2 = Node.new("upon")
-node_3 = Node.new("a")
-node_4 = Node.new("time")
-node_1.next_node = node_2
-node_2.next_node = node_3
-node_3.next_node = node_4
-
-list = LinkedList.new(node_1)
-
-puts list
-
-list.insert_at("I think", 2)
-
-puts list
-
-list.remove_at(2)
-
-puts list
